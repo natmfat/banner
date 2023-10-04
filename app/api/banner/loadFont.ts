@@ -25,13 +25,18 @@ const fontWeightNumber = Object.values(fontWeight) as FontWeightNumber[];
  * @param weight Font weight (as a string)
  * @returns Font data required by satori
  */
-export const loadFont = async (weight: FontWeightString) => ({
-  name: "Inter",
-  data: await fetch(
-    new URL(`/public/fonts/Inter-${weight}.ttf`, import.meta.url)
-  ).then((res) => res.arrayBuffer()),
-  weight: fontWeightNumber[fontWeightString.indexOf(weight)],
-});
+export const loadFont = async (weight: FontWeightString) => {
+  return {
+    name: "Inter",
+    data: await fetch(
+      new URL(
+        `/fonts/Inter-${weight}.ttf`,
+        process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_VERCEL_URL
+      )
+    ).then((res) => res.arrayBuffer()),
+    weight: fontWeightNumber[fontWeightString.indexOf(weight)],
+  };
+};
 
 export const loadFonts = (...weights: FontWeightString[]) =>
   Promise.all(weights.map(loadFont));
