@@ -19,8 +19,6 @@ export const GET = async (req: Request) => {
   const description = searchParams.get("description");
   const stack = (searchParams.get("stack") || "").split(",");
 
-  console.log(`https://api.iconify.design/logos/${stack[0]}.svg?height=10`);
-
   return new ImageResponse(
     (
       <div
