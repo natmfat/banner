@@ -11,6 +11,8 @@ import { loadFonts } from "./loadFont";
 // supports any icon from simple-icons
 // https://simpleicons.org/
 
+const fonts = loadFonts("Regular", "Bold");
+
 export const GET = async (req: Request) => {
   const url = new URL(req.url);
   const searchParams = url.searchParams;
@@ -50,7 +52,7 @@ export const GET = async (req: Request) => {
       width: 1100,
       height: 400,
       emoji: "twemoji",
-      fonts: await loadFonts("Regular", "Bold"),
+      fonts: await fonts,
     }
   );
 };
