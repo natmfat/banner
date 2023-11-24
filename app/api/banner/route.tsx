@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/server";
 import { loadFonts } from "./loadFont";
+import { getIcon } from "./getIcon";
 
 // learn more about serverless functions in vercel
 // https://vercel.com/docs/functions/serverless-functions
@@ -7,9 +8,6 @@ import { loadFonts } from "./loadFont";
 // learn more about satori
 // https://github.com/vercel/satori
 // https://github.com/vercel/examples/blob/main/edge-functions/vercel-og-nextjs/pages/api/emoji.tsx
-
-// supports any icon from simple-icons
-// https://simpleicons.org/
 
 const fonts = loadFonts("Regular", "Bold");
 
@@ -37,14 +35,19 @@ export const GET = async (req: Request) => {
           </p>
         )}
         <div tw="flex mt-3" style={{ gap: 16 }}>
-          {stack.map((tech: string) => (
-            <img
-              src={`https://unpkg.com/simple-icons@9.16.1/icons/${tech}.svg`}
-              key={tech}
-              width={38}
-              height={38}
-            />
-          ))}
+          {stack.map((tech: string) => {
+            const icon = getIcon(tech);
+            return (
+              icon && (
+                <img
+                  src={`data:image/svg+xml;utf8,${encodeURIComponent(icon)}`}
+                  key={tech}
+                  width={38}
+                  height={38}
+                />
+              )
+            );
+          })}
         </div>
       </div>
     ),

@@ -12,6 +12,7 @@ export default function Home() {
       />
 
       <code className="mt-4 block p-2 border border-slate-300 bg-slate-100 rounded-lg">
+        {process.env.NEXT_PUBLIC_SITE_URL}
         /api/banner?title=banner&description=Banners that make your projects
         shine ✨&stack=typescript,nextdotjs
       </code>
