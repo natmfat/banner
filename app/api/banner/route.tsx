@@ -57,9 +57,14 @@ export const GET = async (req: Request) => {
       emoji: "twemoji",
       fonts: await fonts,
       headers: {
+        // https://github.com/vercel/next.js/discussions/47933
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
+
+        // https://stackoverflow.com/questions/62005208/api-caching-for-next-js
+        // cache for 1 day
+        "Cache-Control": "s-maxage=86400",
       },
     }
   );
