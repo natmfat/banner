@@ -10,8 +10,9 @@ import { Surface } from "tanukui/components/Surface";
 import { View } from "tanukui/components/View.js";
 import { ClipboardIcon } from "tanukui/icons";
 import { copyToClipboard } from "./lib/copyToClipboard";
+import { getBaseUrl } from "./lib/getBaseUrl";
 
-const API_CODE = `${process.env.NEXT_PUBLIC_SITE_URL}/api/banner?title=banner&description=Banners that make your projects shine ✨&stack=typescript,nextdotjs`;
+const API_CODE = `${getBaseUrl()}/api/banner?title=banner&description=Banners that make your projects shine ✨&stack=typescript,nextdotjs`;
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -36,7 +37,7 @@ export default function Home() {
       </Surface>
 
       <Surface asChild elevated>
-        <code className="relative mt-3 block p-2 rounded-lg border border-interactive">
+        <code className="relative mt-3 block p-2 pr-8 rounded-lg border border-interactive">
           {API_CODE}
           <IconButton
             alt="Copy API"
