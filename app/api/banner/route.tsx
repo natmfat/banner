@@ -1,5 +1,4 @@
 import { ImageResponse } from "next/server";
-import { loadFonts } from "./loadFont";
 import { getIcon } from "./getIcon";
 
 // learn more about serverless functions in vercel
@@ -8,8 +7,6 @@ import { getIcon } from "./getIcon";
 // learn more about satori
 // https://github.com/vercel/satori
 // https://github.com/vercel/examples/blob/main/edge-functions/vercel-og-nextjs/pages/api/emoji.tsx
-
-const fonts = loadFonts("Regular", "Bold");
 
 export const GET = async (req: Request) => {
   const url = new URL(req.url);
@@ -21,13 +18,12 @@ export const GET = async (req: Request) => {
 
   return new ImageResponse(
     (
-      <div
-        tw="h-full w-full bg-white flex flex-col justify-center items-start p-14"
-        style={{ fontFamily: "Inter" }}
-      >
-        <h1 tw="text-7xl leading-tight font-normal flex m-0">
-          <span>natmfat /</span>
-          <span tw="font-bold ml-6">{title}</span>
+      <div tw="h-full w-full bg-white flex flex-col justify-center items-start p-14">
+        <h1
+          tw="text-7xl leading-tight font-bold flex m-0"
+          style={{ fontWeight: 800 }}
+        >
+          natmfat / {title}
         </h1>
         {description && (
           <p tw="leading-snug max-w-4xl text-4xl text-slate-400 m-0">
@@ -55,7 +51,6 @@ export const GET = async (req: Request) => {
       width: 1100,
       height: 400,
       emoji: "twemoji",
-      fonts: await fonts,
       headers: {
         // https://github.com/vercel/next.js/discussions/47933
         "Access-Control-Allow-Origin": "*",
@@ -66,6 +61,6 @@ export const GET = async (req: Request) => {
         // cache for 1 day
         "Cache-Control": "s-maxage=86400",
       },
-    }
+    },
   );
 };

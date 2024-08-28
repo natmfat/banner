@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { Anchor } from "tanukui/components/Anchor";
+import { useRef, useState } from "react";
+import { Anchor } from "tanukui/components/Anchor.js";
 import { IconButton } from "tanukui/components/IconButton.js";
-import { InlineCode } from "tanukui/components/InlineCode";
-import { Loading } from "tanukui/components/Loading";
-import { Surface } from "tanukui/components/Surface";
+import { InlineCode } from "tanukui/components/InlineCode.js";
+import { Loading } from "tanukui/components/Loading.js";
+import { Surface } from "tanukui/components/Surface.js";
 import { View } from "tanukui/components/View.js";
-import { ClipboardIcon } from "tanukui/icons";
+import { CheckIcon, ClipboardIcon } from "tanukui/icons";
 import { copyToClipboard } from "./lib/copyToClipboard";
 import { getBaseUrl } from "./lib/getBaseUrl";
 
@@ -21,7 +21,8 @@ export default function Home() {
     <main className="max-w-3xl px-4 mx-auto">
       <Surface
         elevated
-        className="border border-interactive mt-20 rounded-lg w-full aspect-[1100/400] overflow-hidden">
+        className="border border-interactive mt-20 rounded-lg w-full aspect-[1100/400] overflow-hidden"
+      >
         <Loading loading={loading}>
           <View>
             <Image
@@ -39,12 +40,7 @@ export default function Home() {
       <Surface asChild elevated>
         <code className="relative mt-3 block p-2 pr-8 rounded-lg border border-interactive">
           {API_CODE}
-          <IconButton
-            alt="Copy API"
-            className="absolute top-2 right-2"
-            onClick={() => copyToClipboard(API_CODE)}>
-            <ClipboardIcon />
-          </IconButton>
+          <CopyIconButton text={API_CODE} />
         </code>
       </Surface>
 
@@ -62,12 +58,43 @@ export default function Home() {
             <Anchor
               href="https://github.com/simple-icons/simple-icons"
               target="_blank"
-              rel="noreferrer">
+              rel="noreferrer"
+            >
               simple-icon
             </Anchor>
           </li>
         </ul>
       </View>
     </main>
+  );
+}
+
+function CopyIconButton({
+  text,
+  delay = 500,
+}: {
+  text: string;
+  delay?: number;
+}) {
+  const [check, setCheck] = useState(false);
+  const ref = useRef<NodeJS.Timeout>();
+
+  return (
+    <IconButton
+      alt="Copy API"
+      className="absolute top-2 right-2"
+      onClick={() => {
+        copyToClipboard(text);
+        clearTimeout(ref.current);
+        setCheck(true);
+        ref.current = setTimeout(() => setCheck(false), delay);
+      }}
+    >
+      {check ? (
+        <CheckIcon className="text-positive-default" />
+      ) : (
+        <ClipboardIcon />
+      )}
+    </IconButton>
   );
 }

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./tailwind.css";
 
 import "tanukui/styles/core.css";
-import "tanukui/styles/themes/light.css";
 
 export const metadata: Metadata = {
   title: "Banner",
@@ -16,7 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="overflow-x-hidden">{children}</body>
+      <body className="overflow-x-hidden" data-theme="dark">
+        {children}
+      </body>
     </html>
   );
 }
